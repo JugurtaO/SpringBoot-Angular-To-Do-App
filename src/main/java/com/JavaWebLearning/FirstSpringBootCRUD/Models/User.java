@@ -21,6 +21,10 @@ public class User
     @Column(name = "user_password")
     private String password;
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public int getId(){
         return this.id;
     }
