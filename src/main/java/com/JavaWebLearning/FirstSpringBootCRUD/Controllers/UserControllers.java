@@ -1,6 +1,7 @@
 package com.JavaWebLearning.FirstSpringBootCRUD.Controllers;
 
 import com.JavaWebLearning.FirstSpringBootCRUD.Exceptions.RessourceNotFound;
+import com.JavaWebLearning.FirstSpringBootCRUD.Models.LoginRequest;
 import com.JavaWebLearning.FirstSpringBootCRUD.Models.User;
 import com.JavaWebLearning.FirstSpringBootCRUD.Repository.UserRepository;
 import com.JavaWebLearning.FirstSpringBootCRUD.Services.UserServices;
@@ -27,7 +28,8 @@ public class UserControllers {
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable int id){
-       return userServices.getUserById(id);
+        User user= userServices.getUserById(id);
+       return ResponseEntity.ok(user);
     }
     @PostMapping ("/signup")
     public User signUp(@RequestBody User user){
@@ -35,9 +37,10 @@ public class UserControllers {
 
     }
     @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestBody String email,@RequestBody String password){
+    public ResponseEntity<User> login(@RequestBody LoginRequest loginRequest){
 
-        return userServices.login(email,password);
+        User user = userServices.login(loginRequest);
+       return ResponseEntity.ok(user);
 
 
     }

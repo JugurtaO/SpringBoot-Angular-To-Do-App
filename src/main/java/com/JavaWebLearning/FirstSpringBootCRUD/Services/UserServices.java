@@ -1,6 +1,7 @@
 package com.JavaWebLearning.FirstSpringBootCRUD.Services;
 
 import com.JavaWebLearning.FirstSpringBootCRUD.Exceptions.RessourceNotFound;
+import com.JavaWebLearning.FirstSpringBootCRUD.Models.LoginRequest;
 import com.JavaWebLearning.FirstSpringBootCRUD.Models.User;
 import com.JavaWebLearning.FirstSpringBootCRUD.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +23,12 @@ public class UserServices implements UserServicesInterface{
         return userRepository.findAll();    }
 
     @Override
-    public ResponseEntity<User> getUserById(int id) {
+    public User getUserById(int id) {
         User user= userRepository.findById(id)
                 .orElseThrow(() -> new RessourceNotFound("No user was found with given id :"+id));
-        return ResponseEntity.ok(user);
+
+
+        return user;
     }
 
     @Override
@@ -34,10 +37,10 @@ public class UserServices implements UserServicesInterface{
     }
 
     @Override
-    public ResponseEntity<User> login(String email, String password) {
-        User foundUser=userRepository.findUserByEmailAndPassword(email,password).orElseThrow(() -> new RessourceNotFound("Please signup to proceed !"));
+    public User login(LoginRequest loginRequest) {
+        User foundUser=userRepository.findUserByEmailAndPassword(loginRequest.getEmail(),loginRequest.getPassword()).orElseThrow(() -> new RessourceNotFound("Please signup to proceed !"));
 
 
-        return ResponseEntity.ok(foundUser);
+        return foundUser;
     }
 }
