@@ -1,8 +1,8 @@
 package com.JavaWebLearning.FirstSpringBootCRUD.Services;
 
+import com.JavaWebLearning.FirstSpringBootCRUD.Dto.LoginRequestDTO;
 import com.JavaWebLearning.FirstSpringBootCRUD.Exceptions.BadCredentials;
 import com.JavaWebLearning.FirstSpringBootCRUD.Exceptions.RessourceNotFound;
-import com.JavaWebLearning.FirstSpringBootCRUD.Models.LoginRequest;
 import com.JavaWebLearning.FirstSpringBootCRUD.Models.User;
 import com.JavaWebLearning.FirstSpringBootCRUD.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,8 +42,8 @@ public class UserServices implements UserServicesInterface{
         return userRepository.save(user);
     }
 
-    @Override
-    public User login(LoginRequest loginRequest) {
+
+    public User login(LoginRequestDTO loginRequest) {
         User foundUser=userRepository.findUserByEmail(loginRequest.getEmail()).orElseThrow(() -> new RessourceNotFound("Please signup to proceed !"));
         if(!passwordEncoder.matches(loginRequest.getPassword(),foundUser.getPassword()))
             throw new BadCredentials("Email or password incorrect!");

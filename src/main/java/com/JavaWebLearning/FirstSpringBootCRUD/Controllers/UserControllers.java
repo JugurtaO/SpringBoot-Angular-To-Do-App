@@ -1,5 +1,6 @@
 package com.JavaWebLearning.FirstSpringBootCRUD.Controllers;
 
+import com.JavaWebLearning.FirstSpringBootCRUD.Dto.LoginRequestDTO;
 import com.JavaWebLearning.FirstSpringBootCRUD.Models.LoginRequest;
 import com.JavaWebLearning.FirstSpringBootCRUD.Models.User;
 import com.JavaWebLearning.FirstSpringBootCRUD.Services.UserServices;
@@ -33,7 +34,7 @@ public class UserControllers {
 
     }
     @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestBody LoginRequest loginRequest){
+    public ResponseEntity<User> login(@RequestBody LoginRequestDTO loginRequest){
 
         User user = userServices.login(loginRequest);
        return ResponseEntity.ok(user);
