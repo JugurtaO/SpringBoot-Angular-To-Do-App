@@ -1,7 +1,7 @@
 package com.JavaWebLearning.FirstSpringBootCRUD.Controllers;
 
 import com.JavaWebLearning.FirstSpringBootCRUD.Dto.LoginRequestDTO;
-import com.JavaWebLearning.FirstSpringBootCRUD.Models.LoginRequest;
+import com.JavaWebLearning.FirstSpringBootCRUD.Dto.SignoutRequestDTO;
 import com.JavaWebLearning.FirstSpringBootCRUD.Models.User;
 import com.JavaWebLearning.FirstSpringBootCRUD.Services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +39,17 @@ public class UserControllers {
         User user = userServices.login(loginRequest);
        return ResponseEntity.ok(user);
 
+
+    }
+
+    @PostMapping("/signout")
+    public ResponseEntity<String> signout(@RequestBody SignoutRequestDTO signoutRequest){
+            userServices.signout(signoutRequest);
+
+
+
+
+            return ResponseEntity.ok("User successfully signed out !");
 
     }
 

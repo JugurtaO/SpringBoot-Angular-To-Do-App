@@ -1,6 +1,7 @@
 package com.JavaWebLearning.FirstSpringBootCRUD.Services;
 
 import com.JavaWebLearning.FirstSpringBootCRUD.Dto.LoginRequestDTO;
+import com.JavaWebLearning.FirstSpringBootCRUD.Dto.SignoutRequestDTO;
 import com.JavaWebLearning.FirstSpringBootCRUD.Exceptions.BadCredentials;
 import com.JavaWebLearning.FirstSpringBootCRUD.Exceptions.RessourceNotFound;
 import com.JavaWebLearning.FirstSpringBootCRUD.Models.User;
@@ -43,6 +44,8 @@ public class UserServices implements UserServicesInterface{
     }
 
 
+
+
     public User login(LoginRequestDTO loginRequest) {
         User foundUser=userRepository.findUserByEmail(loginRequest.getEmail()).orElseThrow(() -> new RessourceNotFound("Please signup to proceed !"));
         if(!passwordEncoder.matches(loginRequest.getPassword(),foundUser.getPassword()))
@@ -51,5 +54,15 @@ public class UserServices implements UserServicesInterface{
 
 
         return foundUser;
+    }
+
+    public void signout (SignoutRequestDTO signoutRequest){
+        //Search the user that matches given email, if user exists we check the validity of the given password. In both email and password verifications we throw an exception in case of erroned credentials
+        User foundUser=userRepository.findUserByEmail(signoutRequest.getEmail()).orElseThrow(() -> new RessourceNotFound("No existing user with given credentials !"));
+        if(!passwordEncoder.matches(signoutRequest.getPassword(),foundUser.getPassword()))
+            throw new BadCredentials("Email or password incorrect!");
+
+        userRepository.delete(foundUser);
+
     }
 }
