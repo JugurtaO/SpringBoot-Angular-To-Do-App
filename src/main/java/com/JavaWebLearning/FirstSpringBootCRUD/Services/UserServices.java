@@ -4,6 +4,7 @@ import com.JavaWebLearning.FirstSpringBootCRUD.Dto.LoginRequestDTO;
 import com.JavaWebLearning.FirstSpringBootCRUD.Dto.SignoutRequestDTO;
 import com.JavaWebLearning.FirstSpringBootCRUD.Exceptions.BadCredentials;
 import com.JavaWebLearning.FirstSpringBootCRUD.Exceptions.RessourceNotFound;
+import com.JavaWebLearning.FirstSpringBootCRUD.Exceptions.UserAlreadyExists;
 import com.JavaWebLearning.FirstSpringBootCRUD.Models.User;
 import com.JavaWebLearning.FirstSpringBootCRUD.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServices implements UserServicesInterface{
@@ -38,8 +40,16 @@ public class UserServices implements UserServicesInterface{
 
     @Override
     public User signUp(User user) {
-        String HashedPassword= passwordEncoder.encode(user.getPassword());
-        user.setPassword(HashedPassword);
+        Optional<User> foundUser=userRepository.findUserByEmail(user.getEmail());
+        if(foundUser!=null){
+            throw  new UserAlreadyExists("User already exists, please login!");
+        }else{
+            //hash user password
+            String HashedPassword= passwordEncoder.encode(user.getPassword());
+            user.setPassword(HashedPassword);
+        }
+
+
         return userRepository.save(user);
     }
 
@@ -60,7 +70,7 @@ public class UserServices implements UserServicesInterface{
         //Search the user that matches given email, if user exists we check the validity of the given password. In both email and password verifications we throw an exception in case of erroned credentials
         User foundUser=userRepository.findUserByEmail(signoutRequest.getEmail()).orElseThrow(() -> new RessourceNotFound("No existing user with given credentials !"));
         if(!passwordEncoder.matches(signoutRequest.getPassword(),foundUser.getPassword()))
-            throw new BadCredentials("Email or password incorrect!");
+        throw new BadCredentials("Email or password incorrect!");
 
         userRepository.delete(foundUser);
 
