@@ -31,17 +31,17 @@ public class UserServices implements UserServicesInterface{
 
     @Override
     public User getUserById(int id) {
-        User user= userRepository.findById(id)
+        User foundUser= userRepository.findById(id)
                 .orElseThrow(() -> new RessourceNotFound("No user was found with given id :"+id));
 
 
-        return user;
+        return foundUser;
     }
 
     @Override
     public User signUp(User user) {
         Optional<User> foundUser=userRepository.findUserByEmail(user.getEmail());
-        if(foundUser!=null){
+        if(foundUser.isPresent()){
             throw  new UserAlreadyExists("User already exists, please login!");
         }else{
             //hash user password
@@ -67,11 +67,12 @@ public class UserServices implements UserServicesInterface{
     }
 
     public void signout (SignoutRequestDTO signoutRequest){
-        //Search the user that matches given email, if user exists we check the validity of the given password. In both email and password verifications we throw an exception in case of erroned credentials
-        User foundUser=userRepository.findUserByEmail(signoutRequest.getEmail()).orElseThrow(() -> new RessourceNotFound("No existing user with given credentials !"));
-        if(!passwordEncoder.matches(signoutRequest.getPassword(),foundUser.getPassword()))
-        throw new BadCredentials("Email or password incorrect!");
-
+        //Search the user that matches given email, if user exists we check the validity of the given password.
+        // In both email and password verification we throw an exception in case of erroned credentials
+        User foundUser=userRepository.findUserByEmail(signoutRequest.getEmail()).orElseThrow(() -> new RessourceNotFound("No existing user with given credentials, please signup!"));
+        if(!passwordEncoder.matches(signoutRequest.getPassword(),foundUser.getPassword())) {
+            throw new BadCredentials("Email or password incorrect!");
+        }
         userRepository.delete(foundUser);
 
     }

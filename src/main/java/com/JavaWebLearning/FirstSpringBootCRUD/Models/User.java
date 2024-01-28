@@ -6,19 +6,21 @@ import jakarta.persistence.*;
 @Table(name = "User")
 public class User
 {
+
     @Id
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  int id;
 
-    @Column(name = "user_firstname")
+
+    private  int id;
+    @Column(name = "user_firstname",nullable = false)
     private String firstName;
-    @Column(name = "user_lastname")
+    @Column(name = "user_lastname",nullable = false)
     private String lastName;
-    @Column(name = "user_email",unique = true)
+    @Column(name = "user_email",unique = true,nullable = false)
     private String email;
 
-    @Column(name = "user_password")
+    @Column(name = "user_password",nullable = false)
     private String password;
 
     public void setPassword(String password) {

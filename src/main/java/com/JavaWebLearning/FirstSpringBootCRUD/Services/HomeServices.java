@@ -7,6 +7,6 @@ public class HomeServices implements HomeServicesInterface {
 
 
     public String welcome(){
-        return "Welcome to Spring Boot CRUD App";
+        return "Welcome to Spring Boot - Angular  TO-DO list  App";
     }
 }

@@ -2,7 +2,10 @@ package com.JavaWebLearning.FirstSpringBootCRUD.Controllers;
 
 import com.JavaWebLearning.FirstSpringBootCRUD.Dto.LoginRequestDTO;
 import com.JavaWebLearning.FirstSpringBootCRUD.Dto.SignoutRequestDTO;
+import com.JavaWebLearning.FirstSpringBootCRUD.Dto.updateTaskDTO;
+import com.JavaWebLearning.FirstSpringBootCRUD.Models.Task;
 import com.JavaWebLearning.FirstSpringBootCRUD.Models.User;
+import com.JavaWebLearning.FirstSpringBootCRUD.Services.TaskServices;
 import com.JavaWebLearning.FirstSpringBootCRUD.Services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +18,14 @@ import java.util.List;
 public class UserControllers {
     @Autowired
    private final  UserServices userServices;
+    @Autowired
+    private final  TaskServices taskServices;
 
-   public  UserControllers(UserServices userServices){this.userServices=userServices;}
+
+    public  UserControllers(UserServices userServices, TaskServices taskServices){
+        this.userServices=userServices;
+        this.taskServices=taskServices;
+    }
 
     @GetMapping("/")
     public List<User> getAllUsers(){
@@ -28,6 +37,15 @@ public class UserControllers {
         User user= userServices.getUserById(id);
        return ResponseEntity.ok(user);
     }
+    @GetMapping("/{id}/tasks")
+    public List<Task> getUserTasks(int id){
+    return taskServices.getTasksByAuthorId(id);
+    }
+    @GetMapping("/{id}/tasks/{taskId}")
+    public Task getTaskById(@PathVariable int taskId){
+        return taskServices.getTaskById(taskId);
+    }
+
     @PostMapping ("/signup")
     public User signUp(@RequestBody User user){
         return userServices.signUp(user);
@@ -51,7 +69,26 @@ public class UserControllers {
 
             return ResponseEntity.ok("User successfully signed out !");
 
+
     }
+    @PostMapping("/{id}/tasks/add")
+    public ResponseEntity<String> addTask(@RequestBody Task task){
+        taskServices.addTask(task);
+        return ResponseEntity.ok("Task created successfully.");
+    }
+    @PostMapping("/{id}/tasks/{taskId}/delete")
+    public void deleteTask(@PathVariable int taskId ){
+        taskServices.deleteTask(taskId);
+
+    }
+
+    @PostMapping("/{id}/tasks/{taskId}/update")
+    public ResponseEntity<Task> updateTask(@RequestBody updateTaskDTO taskDTO){
+        return ResponseEntity.ok(taskServices.updateTask(taskDTO));
+
+    }
+
+
 
 
 
