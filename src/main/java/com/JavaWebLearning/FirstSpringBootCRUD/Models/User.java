@@ -10,8 +10,6 @@ public class User
     @Id
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
-
     private  int id;
     @Column(name = "user_firstname",nullable = false)
     private String firstName;
@@ -22,6 +20,9 @@ public class User
 
     @Column(name = "user_password",nullable = false)
     private String password;
+
+    @OneToMany(mappedBy = "User")
+    //private Set<Task> tasks = new HashSet<>();
 
     public void setPassword(String password) {
         this.password = password;

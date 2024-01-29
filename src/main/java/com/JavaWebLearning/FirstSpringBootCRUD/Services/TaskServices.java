@@ -5,10 +5,12 @@ import com.JavaWebLearning.FirstSpringBootCRUD.Exceptions.RessourceNotFound;
 import com.JavaWebLearning.FirstSpringBootCRUD.Models.Task;
 import com.JavaWebLearning.FirstSpringBootCRUD.Repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class TaskServices implements TaskServicesInterface{
     @Autowired
     private TaskRepository taskRepository;
@@ -53,9 +55,9 @@ public class TaskServices implements TaskServicesInterface{
     }
 
     @Override
-    public Task updateTask(updateTaskDTO taskDTO) {
+    public Task updateTask(int task_id,updateTaskDTO taskDTO) {
 
-        Task requestedTask = getTaskById(taskDTO.getId());
+        Task requestedTask = getTaskById(task_id);
         requestedTask.setText(taskDTO.getNewText());
 
         taskRepository.save(requestedTask);

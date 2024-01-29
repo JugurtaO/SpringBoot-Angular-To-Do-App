@@ -4,13 +4,10 @@ import com.JavaWebLearning.FirstSpringBootCRUD.Models.Task;
 import com.JavaWebLearning.FirstSpringBootCRUD.Services.TaskServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@RestController
 @RequestMapping("/tasks")
 public class TaskControllers {
     @Autowired
@@ -19,7 +16,7 @@ public class TaskControllers {
     public  TaskControllers(TaskServices taskServices){this.taskServices=taskServices;}
 
 
-    @GetMapping("/")
+    @GetMapping({"","/"})
     public List<Task> getAllTasks(){
         return taskServices.getAllTasks();
     }

@@ -16,11 +16,10 @@ public class Task {
     @Column(name = "task_text",nullable = false)
     private  String text;
 
-    @Column(name = "task_author")
     @ManyToOne
-    @JoinColumn(name="user_id", nullable=false)
+    @JoinColumn(name="user_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private String author;
+    private User author;
 
     public int getId() {
         return id;
@@ -30,7 +29,7 @@ public class Task {
         return text;
     }
 
-    public String getAuthor() {
+    public User getAuthor() {
         return author;
     }
 

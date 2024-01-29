@@ -12,5 +12,5 @@ public interface TaskServicesInterface {
     public List<Task> getTasksByAuthorId(int id);
     public void addTask(Task task);
     public void deleteTask(int id);
-    public Task updateTask(updateTaskDTO taskDTO);
+    public Task updateTask(int task_id,updateTaskDTO taskDTO);
 }

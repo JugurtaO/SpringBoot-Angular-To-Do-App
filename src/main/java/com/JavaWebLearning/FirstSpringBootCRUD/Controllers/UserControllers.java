@@ -38,7 +38,7 @@ public class UserControllers {
        return ResponseEntity.ok(user);
     }
     @GetMapping("/{id}/tasks")
-    public List<Task> getUserTasks(int id){
+    public List<Task> getUserTasks(@PathVariable int id){
     return taskServices.getTasksByAuthorId(id);
     }
     @GetMapping("/{id}/tasks/{taskId}")
@@ -77,14 +77,15 @@ public class UserControllers {
         return ResponseEntity.ok("Task created successfully.");
     }
     @PostMapping("/{id}/tasks/{taskId}/delete")
-    public void deleteTask(@PathVariable int taskId ){
+    public ResponseEntity<String>deleteTask(@PathVariable int taskId ){
         taskServices.deleteTask(taskId);
+        return ResponseEntity.ok("Task deleted successfully !");
 
     }
 
-    @PostMapping("/{id}/tasks/{taskId}/update")
-    public ResponseEntity<Task> updateTask(@RequestBody updateTaskDTO taskDTO){
-        return ResponseEntity.ok(taskServices.updateTask(taskDTO));
+    @PostMapping("/{id}/tasks/{task_id}/update")
+    public ResponseEntity<Task> updateTask(@PathVariable int task_id,@RequestBody updateTaskDTO taskDTO){
+        return ResponseEntity.ok(taskServices.updateTask(task_id,taskDTO));
 
     }
 
