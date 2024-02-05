@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface TaskRepository extends JpaRepository <Task,Integer>{
     @Transactional
     @Modifying
-    @Query(value="SELECT * FROM task WHERE author_id = ?1",nativeQuery = true)
+    @Query(value="SELECT * FROM task WHERE user_id = ?1",nativeQuery = true)
     public Optional<Task[]> findTasksByAuthorId(int author_id);
 
 
