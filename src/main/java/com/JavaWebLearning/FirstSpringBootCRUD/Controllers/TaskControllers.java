@@ -31,6 +31,12 @@ public class TaskControllers {
         return taskServices.getTaskById(id);
     }
 
+    @PostMapping("/{id}/delete")
+    public ResponseEntity<String>deleteTask(@PathVariable int id ){
+        taskServices.deleteTask(id);
+        return ResponseEntity.ok("Task deleted successfully !");
+
+    }
 
 
 
