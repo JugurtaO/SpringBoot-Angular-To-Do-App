@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
+@CrossOrigin
 @RequestMapping("/tasks")
 public class TaskControllers {
     @Autowired
@@ -31,6 +32,7 @@ public class TaskControllers {
         return taskServices.getTaskById(id);
     }
 
+    @CrossOrigin
     @PostMapping("/{id}/delete")
     public ResponseEntity<String>deleteTask(@PathVariable int id ){
         taskServices.deleteTask(id);
