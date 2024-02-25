@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -85,7 +86,7 @@ public class UserControllers {
     }
 
     @PostMapping("/{id}/tasks/{task_id}/update")
-    public ResponseEntity<Task> updateTask(@PathVariable int task_id,@RequestBody updateTaskDTO taskDTO){
+    public ResponseEntity<Task> updateTask(@PathVariable int task_id,@RequestBody updateTaskDTO taskDTO) throws ParseException {
         return ResponseEntity.ok(taskServices.updateTask(task_id,taskDTO));
 
     }

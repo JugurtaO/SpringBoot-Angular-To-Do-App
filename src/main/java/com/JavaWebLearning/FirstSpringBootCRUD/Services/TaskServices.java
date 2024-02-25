@@ -7,6 +7,8 @@ import com.JavaWebLearning.FirstSpringBootCRUD.Repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,10 +57,16 @@ public class TaskServices implements TaskServicesInterface{
     }
 
     @Override
-    public Task updateTask(int task_id,updateTaskDTO taskDTO) {
+    public Task updateTask(int task_id,updateTaskDTO taskDTO) throws ParseException {
 
         Task requestedTask = getTaskById(task_id);
         requestedTask.setText(taskDTO.getNewText());
+        System.out.println(">>>>>>>:"+taskDTO.getNewDueDate());
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd hh:mm");
+
+        requestedTask.setDueDate(simpleDateFormat.parse(taskDTO.getNewDueDate()));
+        System.out.println(">>>>>>> AFTER SET:"+taskDTO.getNewDueDate());
+
 
         taskRepository.save(requestedTask);
         return requestedTask;

@@ -36,6 +36,10 @@ public class Task {
         return text;
     }
 
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
+    }
+
     public User getAuthor() {
         return author;
     }

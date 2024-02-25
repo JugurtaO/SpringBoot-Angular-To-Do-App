@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 @RestController
 @CrossOrigin
@@ -43,9 +44,12 @@ public class TaskControllers {
 
     @CrossOrigin
     @PostMapping("/{id}/update")
-    public ResponseEntity<String> updateTask(@PathVariable int id,@RequestBody updateTaskDTO taskDTO){
-        taskServices.updateTask(id,taskDTO);
-        System.out.println(">>>> new Text:"+taskDTO.getNewText());
+    public ResponseEntity<String> updateTask(@PathVariable int id,@RequestBody updateTaskDTO taskDTO) throws ParseException {
+        try {
+            taskServices.updateTask(id,taskDTO);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
         return ResponseEntity.ok("Task updated successfully !");
 
     }
